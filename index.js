@@ -53,7 +53,6 @@ fetchMaxPage(rooturl).then(maxPage => {
     ++page;
     pagination.textContent = page + ' / ' + maxPage;
     const url = rooturl + '?page=' + page;
-    console.log(url);
     fetchCharacters(url);
 
     prevButton.addEventListener('click', () => {
