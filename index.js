@@ -17,10 +17,9 @@ let searchQuery = '';
 
 cardContainer.innerHTML = '';
 
-fetchCharacters(rooturl);
+fetchCharacters(rooturl + '?page=1');
 
 function fetchCharacters(url) {
-  console.log(url);
   fetch(url)
     .then(response => response.json())
     .then(data => {
@@ -41,30 +40,45 @@ function renderElement(element) {
   cardContainer.appendChild(element); // Append the Element to the page
 }
 
-function fetchMaxPage() {
-  return fetch(rooturl)
+function fetchMaxPage(url) {
+  return fetch(url)
     .then(response => response.json())
     .then(data => data.info.pages);
 }
 
-nextButton.addEventListener('click', () => {
-  fetchMaxPage().then(maxPage => {
-    if (page > maxPage) return;
+fetchMaxPage(rooturl).then(maxPage => {
+  nextButton.addEventListener('click', () => {
+    if (page >= maxPage) return;
     cardContainer.innerHTML = '';
     ++page;
     pagination.textContent = page + ' / ' + maxPage;
     const url = rooturl + '?page=' + page;
+    console.log(url);
     fetchCharacters(url);
+
+    prevButton.addEventListener('click', () => {
+      if (page <= 1) return;
+      cardContainer.innerHTML = '';
+      --page;
+      pagination.textContent = page + ' / ' + maxPage;
+      const url = rooturl + '?page=' + page;
+      fetchCharacters(url);
+    });
   });
 });
 
-prevButton.addEventListener('click', () => {
-  fetchMaxPage().then(maxPage => {
-    if (page <= 1) return;
+searchBar.addEventListener('submit', event => {
+  event.preventDefault();
+  const searchWhat = searchBar.elements.query.value;
+  const searchurl = rooturl + '?name=' + searchWhat;
+  console.log(searchurl);
+  fetchMaxPage(searchurl).then(maxsearchpage => {
+    console.log(maxsearchpage);
+    let fetchurl = '';
     cardContainer.innerHTML = '';
-    --page;
-    pagination.textContent = page + ' / ' + maxPage;
-    const url = rooturl + '?page=' + page;
-    fetchCharacters(url);
+    for (let i = 1; i <= maxsearchpage; i++) {
+      fetchurl = rooturl + '?page=' + i + '&name=' + searchWhat;
+      fetchCharacters(fetchurl);
+    }
   });
 });
