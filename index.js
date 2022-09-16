@@ -19,23 +19,23 @@ function fetchCharacters() {
   fetch('https://rickandmortyapi.com/api/character')
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      //console.log(data);
       const characters = data.results;
-      
+      cardContainer.innerHTML = "";
       characters.forEach(character => {
         
         
         const profile = {
-          name: characters.name, 
-          image: characters.image,
-          type: characters.type,
-          status: characters.status,
+          name: character.name, 
+          image: character.image,
+          type: character.type,
+          status: character.status,
           occurences: character.episode.length,
         }
-        cardContainer.innerHTML = "";
+        
         cardContainer.append(createCharacterCard(profile));
       })
-      .catch(console.error(error.message));
+      //.catch(console.error(error));
       
     });
 }
