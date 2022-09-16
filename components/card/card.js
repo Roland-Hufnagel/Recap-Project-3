@@ -1,7 +1,7 @@
 export function createCharacterCard(profile) {
   const cardItem = document.createElement('li');
   cardItem.classList.add('card');
-  cardItem.INNERHTML = `
+  cardItem.innerHTML = `
   <div class="card__image-container">
     <img
       class="card__image"
@@ -22,4 +22,6 @@ export function createCharacterCard(profile) {
     </dl>
   </div>
     `;
+  console.log(cardItem);
+  return cardItem;
 }
