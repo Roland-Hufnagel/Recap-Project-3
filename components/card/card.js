@@ -1,7 +1,5 @@
 export function createCharacterCard() {}
 
-const cardContainer = document.querySelector('[data-js="card-container"]');
-
 function createCharacterCard(profile) {
   const cardItem = document.createElement('li');
   cardItem.classList.add('card');
