@@ -1,6 +1,4 @@
-export function createCharacterCard() {}
-
-function createCharacterCard(profile) {
+export function createCharacterCard(profile) {
   const cardItem = document.createElement('li');
   cardItem.classList.add('card');
   cardItem.INNERHTML = `
