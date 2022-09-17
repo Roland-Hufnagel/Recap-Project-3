@@ -17,7 +17,7 @@ prevButton.addEventListener('click', () => {
   if (page > 1) {
     --page;
     cardContainer.innerHTML = '';
-    fetchCharacters(apiUrl + `?page=${page}`);
+    fetchCharacters(apiUrl + `?page=${page}&name=${searchQuery}`);
   }
 });
 
@@ -25,7 +25,7 @@ nextButton.addEventListener('click', () => {
   if (page < maxPage) {
     ++page;
     cardContainer.innerHTML = '';
-    fetchCharacters(apiUrl + `?page=${page}`);
+    fetchCharacters(apiUrl + `?page=${page}&name=${searchQuery}`);
   }
 });
 
@@ -82,6 +82,8 @@ searchBar.addEventListener('submit', event => {
   event.preventDefault();
   searchQuery = searchBar.elements.query.value;
   let url = apiUrl + '?page=1&name=' + searchQuery;
+  page = 1;
   fetchCharacters(url);
+  
 });
 
