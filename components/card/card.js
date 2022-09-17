@@ -22,6 +22,6 @@ export function createCharacterCard(profile) {
     </dl>
   </div>
     `;
-  console.log(cardItem);
+
   return cardItem;
 }
