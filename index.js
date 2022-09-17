@@ -10,18 +10,36 @@ const prevButton = document.querySelector('[data-js="button-prev"]');
 const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
+// string fuer url manipulation
+let apiUrl = 'https://rickandmortyapi.com/api/character';
+
+prevButton.addEventListener('click', () => {
+  if (page > 1) {
+    --page;
+    cardContainer.innerHTML = '';
+    fetchCharacters(apiUrl + `?page=${page}`);
+  }
+});
+
+nextButton.addEventListener('click', () => {
+  if (page < maxPage) {
+    ++page;
+    cardContainer.innerHTML = '';
+    fetchCharacters(apiUrl + `?page=${page}`);
+  }
+});
+
 // States
 let maxPage = 1;
 let page = 1;
 let searchQuery = '';
 
-function getcurrentState() {
-  const state = {page: page, maxpage: maxPage};
-  console.log(state);
-}
 
-const rooturl = 'https://rickandmortyapi.com/api/character';
-fetchCharacters(rooturl);
+
+
+
+//const apiUrl = 'https://rickandmortyapi.com/api/character';
+
 
 async function fetchCharacters(url) {
   try {
@@ -30,6 +48,7 @@ async function fetchCharacters(url) {
 
     cardContainer.innerHTML = '';
     console.log('result ', data.results);
+
     data.results.forEach(character => {
       const profile = {
         name: character.name,
@@ -41,20 +60,28 @@ async function fetchCharacters(url) {
 
       cardContainer.append(createCharacterCard(profile));
     });
+
+
+    maxPage = data.info.pages;
+    pagination.textContent = `${page} / ${maxPage}`;
+
+    console.log(maxPage);
+
+
   } catch (error) {
     console.error(error.message);
   }
 }
 
-function fetchMaxpages(url) {
-  return fetch(url)
-    .then(response => response.json())
-    .then(data => (maxPage = data.info.pages));
-}
+
+fetchCharacters(apiUrl);
+
+
 
 searchBar.addEventListener('submit', event => {
   event.preventDefault();
   searchQuery = searchBar.elements.query.value;
-  let url = rooturl + '?page=1&name=' + searchQuery;
+  let url = apiUrl + '?page=1&name=' + searchQuery;
   fetchCharacters(url);
 });
+
